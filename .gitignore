@@ -9,7 +9,6 @@
 *.translation
 *.scn.remap
 *.tscn.remap
-*.import
 *.tmp
 *~
 
