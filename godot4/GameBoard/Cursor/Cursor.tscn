@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bv1ul1qynrdwd"]
 
-[ext_resource type="Script" path="res://GameBoard/Cursor/Cursor.gd" id="1"]
+[ext_resource type="Script" uid="uid://cpcdvrh8432k1" path="res://GameBoard/Cursor/Cursor.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dsmh2fn7kpkri" path="res://GameBoard/Cursor/menu_selection_arrow.png" id="2"]
 [ext_resource type="Resource" path="res://GameBoard/Grid.tres" id="3"]
 
