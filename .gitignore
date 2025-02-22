@@ -1,10 +1,25 @@
-
-# Godot-specific ignores
-.import/
-export.cfg
-export_presets.cfg
-
-# Mono-specific ignores
-.mono/
-data_*/
+# Godot 4 specific ignores
 .godot/
+!.godot/debugger/
+
+# Godot 3 specific ignores
+.import/
+
+# Cache and temporary files
+*.translation
+*.scn.remap
+*.tscn.remap
+*.import
+*.tmp
+*~
+
+# OS-generated files
+._*
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Package manager files
+*.nupkg
+project.razor.json
+project.assets.json

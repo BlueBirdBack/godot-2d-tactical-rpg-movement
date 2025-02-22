@@ -1,0 +1,103 @@
+---
+description: Godot 4.4 Game Development
+globs: *.gd, *.tscn, *.tres
+---
+
+# Godot 4.4 Game Development
+
+## Core Development Guidelines
+
+- Use strict typing in GDScript for better error detection and IDE support
+- Implement _ready() and other lifecycle functions with explicit super() calls
+- Use @onready annotations instead of direct node references in _ready()
+- Prefer composition over inheritance where possible
+- Use signals for loose coupling between nodes
+- Follow Godot's node naming conventions (PascalCase for nodes, snake_case for methods)
+
+## Version 4.3+ Compatibility Rules
+
+### Binary Serialization
+- Avoid relying on binary serialization for cross-version compatibility
+- Test resource loading/saving with both old and new Godot versions
+
+### TileMap Changes
+- TileMap node is deprecated - use multiple TileMapLayer nodes instead
+- Convert existing TileMaps using the TileMap bottom panel toolbox option "Extract TileMap layers"
+- Access TileMap layers through TileMapLayer nodes
+- Update navigation code to use TileMapLayer.get_navigation_map()
+- Store layer-specific properties on individual TileMapLayer nodes
+    
+### Android Support
+- Use OS.request_permission() for Android permissions
+- Handle MainLoop.on_request_permissions_result signal
+    
+### Multiplayer
+- Ensure server and client use same Godot version for multiplayer
+- Implement version checking in multiplayer code
+
+### Graphics
+- Test decal colors after conversion to linear color space
+- Update custom shaders for reverse Z depth buffer compatibility
+
+
+## Performance Best Practices
+
+- Use Node groups sparingly and prefer direct node references
+- Implement object pooling for frequently spawned objects
+- Use physics layers to optimize collision detection
+- Prefer packed arrays (PackedVector2Array, etc.) over regular arrays
+- Use occlusion culling for complex 3D scenes
+
+
+## Resource Management
+
+- Implement proper resource cleanup in _exit_tree()
+- Use preload() for essential resources, load() for optional ones
+- Consider PackedByteArray storage impact on backwards compatibility
+- Implement resource unloading for unused assets
+
+
+## Code Style
+
+- Use type hints for all variables and function parameters
+- Document complex functions with docstrings
+- Keep methods focused and under 30 lines when possible
+- Use meaningful variable and function names
+- Group related properties and methods together
+- Use tabs for indentation instead of spaces
+
+
+# Testing Guidelines
+
+- Create automated tests for critical game systems
+- Test on multiple platforms, especially for mobile deployment
+- Implement debug modes for testing game mechanics
+- Add logging for critical operations in release builds
+
+
+## Scene Organization
+
+- Keep scene tree depth minimal for better performance
+- Use scene inheritance for reusable components
+- Implement proper scene cleanup on queue_free()
+- Use SubViewport nodes carefully due to performance impact
+- Provide step-by-step instructions to create Godot scene(s) instead of providing scene source code
+
+
+## Error Handling
+
+- Implement graceful fallbacks for missing resources
+- Use assert() for development-time error checking
+- Log errors appropriately in production builds
+- Handle network errors gracefully in multiplayer games
+
+
+## Additional Instructions
+
+1. Review the Godot 4.3 migration guide for breaking changes
+2. Test thoroughly when upgrading from previous versions
+3. Implement version checks for critical systems
+4. Document any version-specific workarounds
+5. Use version control for tracking project changes
+6. Maintain compatibility with minimum supported hardware
+7. Follow Godot's official style guide
