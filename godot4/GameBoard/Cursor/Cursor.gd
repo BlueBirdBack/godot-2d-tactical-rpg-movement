@@ -28,7 +28,7 @@ var cell := Vector2.ZERO:
 		#	a signal, and start the cooldown timer that will limit the rate
 		#	at which the cursor moves when we keep the direction key held
 		#	down
-		position = grid.calculate_map_position(cell)
+		position = grid.grid_to_world_position(cell)
 		emit_signal("moved", cell)
 		_timer.start()
 
@@ -37,7 +37,7 @@ var cell := Vector2.ZERO:
 
 func _ready() -> void:
 	_timer.wait_time = ui_cooldown
-	position = grid.calculate_map_position(cell)
+	position = grid.grid_to_world_position(cell)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -49,7 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal("accept_pressed", cell)
 		get_viewport().set_input_as_handled()
 
-	var should_move := event.is_pressed() 
+	var should_move := event.is_pressed()
 	if event.is_echo():
 		should_move = should_move and _timer.is_stopped()
 
@@ -68,5 +68,4 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(-grid.cell_size / 2, grid.cell_size), Color.ALICE_BLUE, false, 2.0)
-
+	draw_rect(Rect2(- grid.cell_size / 2, grid.cell_size), Color.ALICE_BLUE, false, 2.0)
