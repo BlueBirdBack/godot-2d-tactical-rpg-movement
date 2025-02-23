@@ -59,8 +59,8 @@ func _ready() -> void:
 	set_process(false)
 	_path_follow.rotates = false
 
-	cell = grid.calculate_grid_coordinates(position)
-	position = grid.grid_to_world_position(cell)
+	cell = grid.calculate_grid_coordinates(Vector2i(position))
+	position = grid.grid_to_world_position(Vector2i(cell))
 
 	# We create the curve resource here because creating it in the editor prevents us from
 	# moving the unit.

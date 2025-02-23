@@ -18,7 +18,7 @@ func grid_to_world_position(grid_position: Vector2i) -> Vector2:
 
 ## Returns the corresponding grid coordinates given world coordinates (in pixels).
 func calculate_grid_coordinates(world_position: Vector2) -> Vector2i:
-	return (world_position / cell_size).floor()
+	return Vector2i((world_position / cell_size).floor())
 
 ## Checks if the given grid coordinates are within the grid boundaries.
 ## Returns true if within bounds, false otherwise.
