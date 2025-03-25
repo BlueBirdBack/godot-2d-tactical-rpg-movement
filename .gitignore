@@ -8,3 +8,7 @@ export_presets.cfg
 .mono/
 data_*/
 .godot/
+
+# Visual Studio Code
+.vscode/
+godot4/.vscode/
