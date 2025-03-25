@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Grid" load_steps=2 format=3 uid="uid://dpm5q7dn48380"]
+[gd_resource type="Resource" script_class="Grid" load_steps=2 format=3 uid="uid://c8tcbxa147k28"]
 
 [ext_resource type="Script" uid="uid://bn0u42jg6rkt" path="res://GameBoard/Grid.gd" id="1"]
 

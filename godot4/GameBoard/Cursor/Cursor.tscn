@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://grjxhcgum616" path="res://GameBoard/Cursor/Cursor.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dsmh2fn7kpkri" path="res://GameBoard/Cursor/menu_selection_arrow.png" id="2"]
-[ext_resource type="Resource" uid="uid://dpm5q7dn48380" path="res://GameBoard/Grid.tres" id="3"]
+[ext_resource type="Resource" uid="uid://c8tcbxa147k28" path="res://GameBoard/Grid.tres" id="3"]
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1")
