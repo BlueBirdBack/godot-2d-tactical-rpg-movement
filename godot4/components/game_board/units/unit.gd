@@ -83,11 +83,31 @@ func _process(delta: float) -> void:
 ## Starts walking along the `path`.
 ## `path` is an array of grid coordinates that the function converts to map coordinates.
 func walk_along(path: PackedVector2Array) -> void:
-	if path.is_empty():
+	if path.size() < 2:  # Need at least 2 points for a valid path
+		if path.size() == 1:
+			# Just teleport to the destination if only one point
+			cell = path[0]
+			position = grid.grid_to_pixel(cell)
+			emit_signal("walk_finished")
 		return
 
+	curve.clear_points()  # Always clear existing points first
 	curve.add_point(Vector2.ZERO)
+	
+	# Track previous point to avoid duplicates
+	var previous_point: Vector2 = Vector2.ZERO
 	for point in path:
-		curve.add_point(grid.grid_to_pixel(point) - position)
+		var new_point: Vector2 = grid.grid_to_pixel(point) - position
+		# Only add if point is sufficiently different from previous
+		if new_point.distance_squared_to(previous_point) > 0.01:
+			curve.add_point(new_point)
+			previous_point = new_point
+	
+	# Final validation to ensure we have a valid path
+	if curve.get_point_count() < 2:
+		# Still not enough distinct points
+		emit_signal("walk_finished")
+		return
+		
 	cell = path[-1]
 	_is_walking = true
