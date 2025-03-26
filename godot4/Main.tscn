@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://30jb4kc5kf5p"]
 
 [ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://GameBoard/Cursor/Cursor.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://d4mhjq651egt" path="res://Units/Unit.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://d4mhjq651egt" path="res://Units/unit.tscn" id="2"]
 [ext_resource type="Script" uid="uid://dub40gsfdwrnh" path="res://GameBoard/GameBoard.gd" id="3"]
 [ext_resource type="Resource" uid="uid://c8tcbxa147k28" path="res://GameBoard/grid.tres" id="4"]
 [ext_resource type="PackedScene" uid="uid://n825j345khoi" path="res://UnitOverlay/UnitOverlay.tscn" id="5"]

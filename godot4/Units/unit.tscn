@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d4mhjq651egt"]
 
-[ext_resource type="Script" uid="uid://doxugnnjwiu5c" path="res://Units/Unit.gd" id="1"]
+[ext_resource type="Script" uid="uid://doxugnnjwiu5c" path="res://Units/unit.gd" id="1"]
 [ext_resource type="Resource" uid="uid://c8tcbxa147k28" path="res://GameBoard/grid.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://b5ghlcxjxmmgw" path="res://Units/unit_shadow.svg" id="3"]
 
