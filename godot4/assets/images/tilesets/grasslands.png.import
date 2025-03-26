@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceanoo0yxcj8i"
-path="res://.godot/imported/squirrel.png-8c9ddb2062bfb053adc170396883ebc9.ctex"
+uid="uid://cocms0prufyqi"
+path="res://.godot/imported/grasslands.png-bd35cb2b774933523b54df4fe16e9900.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/squirrel.png"
-dest_files=["res://.godot/imported/squirrel.png-8c9ddb2062bfb053adc170396883ebc9.ctex"]
+source_file="res://assets/images/tilesets/grasslands.png"
+dest_files=["res://.godot/imported/grasslands.png-bd35cb2b774933523b54df4fe16e9900.ctex"]
 
 [params]
 

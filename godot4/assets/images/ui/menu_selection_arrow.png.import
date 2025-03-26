@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsmh2fn7kpkri"
-path="res://.godot/imported/menu_selection_arrow.png-13a8e3a8123c94c4ee27e6cb4f957de2.ctex"
+path="res://.godot/imported/menu_selection_arrow.png-997fb76f3e3ea94cd0b7fc26d393736d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game_board/cursor/menu_selection_arrow.png"
-dest_files=["res://.godot/imported/menu_selection_arrow.png-13a8e3a8123c94c4ee27e6cb4f957de2.ctex"]
+source_file="res://assets/images/ui/menu_selection_arrow.png"
+dest_files=["res://.godot/imported/menu_selection_arrow.png-997fb76f3e3ea94cd0b7fc26d393736d.ctex"]
 
 [params]
 
