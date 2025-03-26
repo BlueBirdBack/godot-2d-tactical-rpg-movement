@@ -19,7 +19,7 @@ var cell := Vector2.ZERO:
 	set(value):
 		# We first clamp the cell coordinates and ensure that we aren't
 		#	trying to move outside the grid boundaries
-		var new_cell: Vector2 = grid.grid_clamp(value)
+		var new_cell: Vector2 = grid.clamp_to_grid(value)
 		if new_cell.is_equal_approx(cell):
 			return
 
@@ -28,7 +28,7 @@ var cell := Vector2.ZERO:
 		#	a signal, and start the cooldown timer that will limit the rate
 		#	at which the cursor moves when we keep the direction key held
 		#	down
-		position = grid.calculate_map_position(cell)
+		position = grid.grid_to_pixel(cell)
 		emit_signal("moved", cell)
 		_timer.start()
 
@@ -37,13 +37,13 @@ var cell := Vector2.ZERO:
 
 func _ready() -> void:
 	_timer.wait_time = ui_cooldown
-	position = grid.calculate_map_position(cell)
+	position = grid.grid_to_pixel(cell)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Navigating cells with the mouse.
 	if event is InputEventMouseMotion:
-		cell = grid.calculate_grid_coordinates(event.position)
+		cell = grid.pixel_to_grid(event.position)
 	# Trying to select something in a cell.
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
 		emit_signal("accept_pressed", cell)

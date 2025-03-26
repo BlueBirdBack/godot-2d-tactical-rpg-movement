@@ -62,7 +62,7 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 	var stack := [cell]
 	while not stack.size() == 0:
 		var current = stack.pop_back()
-		if not grid.is_within_bounds(current):
+		if not grid.is_within_grid(current):
 			continue
 		if current in array:
 			continue

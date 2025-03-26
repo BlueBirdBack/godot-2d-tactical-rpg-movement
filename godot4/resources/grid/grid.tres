@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bn0u42jg6rkt" path="res://resources/grid/grid.gd" id="1"]
 
-
 [resource]
 script = ExtResource("1")
-size = Vector2(20, 20)
+dimensions = Vector2i(20, 20)
 cell_size = Vector2(80, 80)

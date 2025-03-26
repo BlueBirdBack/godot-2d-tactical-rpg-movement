@@ -11,7 +11,7 @@ var _astar := AStarGrid2D.new()
 ## Initializes the AstarGrid2D object upon creation.
 func _init(grid: Grid, walkable_cells: Array) -> void:
 	_grid = grid
-	_astar.size = _grid.size
+	_astar.size = _grid.dimensions
 	_astar.cell_size = _grid.cell_size
 	_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	_astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
@@ -19,8 +19,8 @@ func _init(grid: Grid, walkable_cells: Array) -> void:
 	_astar.update()
 	# Iterate over all points on the grid and disable any which are
 	#	not in the given array of walkable cells
-	for y in _grid.size.y:
-		for x in _grid.size.x:
+	for y in _grid.dimensions.y:
+		for x in _grid.dimensions.x:
 			if not walkable_cells.has(Vector2(x,y)):
 				_astar.set_point_solid(Vector2(x,y))
 
