@@ -18,17 +18,20 @@ signal movement_completed
 @export var character_texture: Texture:
 	set(value):
 		character_texture = value
-		if not _character_sprite:
-			# Wait until the node is fully initialized
-			await ready
-		_character_sprite.texture = value
+		# REMOVED: if not _character_sprite: await ready
+		# REMOVED: _character_sprite.texture = value
+		# ADDED: If the node is ready, update immediately. Otherwise _ready() will handle it.
+		if is_node_ready() and _character_sprite:
+			_character_sprite.texture = value
 ## Fine-tuning of sprite position in pixels.
 @export var texture_offset := Vector2.ZERO:
 	set(value):
 		texture_offset = value
-		if not _character_sprite:
-			await ready
-		_character_sprite.position = value
+		# REMOVED: if not _character_sprite: await ready
+		# REMOVED: _character_sprite.position = value
+		# ADDED: If the node is ready, update immediately. Otherwise _ready() will handle it.
+		if is_node_ready() and _character_sprite:
+			_character_sprite.position = value
 
 ## Current position on the game grid.
 var cell: Vector2i = Vector2i.ZERO:
@@ -58,6 +61,12 @@ var _is_moving := false:
 func _ready() -> void:
 	set_process(false)
 	_path_follower.rotates = false
+
+	# ADDED: Apply initial texture and offset after _character_sprite is ready
+	if _character_sprite: # Check if sprite exists (good practice)
+		if character_texture: # Check if texture is assigned
+			_character_sprite.texture = character_texture
+		_character_sprite.position = texture_offset
 
 	cell = grid.pixel_to_grid(position)
 	position = grid.grid_to_pixel(cell)
