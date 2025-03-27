@@ -1,71 +1,80 @@
-## Player-controlled cursor. Allows them to navigate the game grid, select units, and move them.
-## Supports both keyboard and mouse (or touch) input.
+## Player-controlled cursor for navigating and interacting with the game grid.
+## Supports both keyboard/gamepad navigation and mouse/touch positioning.
 @tool
 class_name Cursor
 extends Node2D
 
-## Emitted when clicking on the currently hovered cell or when pressing "ui_accept".
-signal accept_pressed(cell: Vector2i)
-## Emitted when the cursor moved to a new cell.
-signal moved(new_cell: Vector2i)
+## Emitted when the player confirms selection of the current cell (via click or ui_accept).
+signal accept_pressed(cell_coordinates: Vector2i)
+## Emitted when the cursor moves to a different cell.
+signal moved(new_cell_coordinates: Vector2i)
 
-## Grid resource, giving the node access to the grid size, and more.
-@export var grid: Resource
-## Time before the cursor can move again in seconds.
-@export var ui_cooldown := 0.1
+## Grid resource providing conversion methods between grid and pixel coordinates.
+@export var grid: Grid
+## Cooldown time in seconds between consecutive cursor movements when a direction key is held.
+## Lower values allow faster movement while holding a direction.
+@export var movement_cooldown := 0.1
 
-## Coordinates of the current cell the cursor is hovering.
+## Current grid coordinates of the cell the cursor is hovering.
 var cell := Vector2i.ZERO:
 	set(value):
-		# We first clamp the cell coordinates and ensure that we aren't
-		#	trying to move outside the grid boundaries
+		# Ensure cursor stays within grid boundaries
 		var new_cell: Vector2i = grid.clamp_to_grid(value)
 		if new_cell == cell:
 			return
 
 		cell = new_cell
-		# If we move to a new cell, we update the cursor's position, emit
-		#	a signal, and start the cooldown timer that will limit the rate
-		#	at which the cursor moves when we keep the direction key held
-		#	down
 		position = grid.grid_to_pixel(cell)
 		emit_signal("moved", cell)
-		_timer.start()
+		_movement_timer.start()
 
-@onready var _timer: Timer = $Timer
+## Timer that controls the movement rate when holding direction keys.
+@onready var _movement_timer: Timer = $Timer
 
 
 func _ready() -> void:
-	_timer.wait_time = ui_cooldown
+	_movement_timer.wait_time = movement_cooldown
 	position = grid.grid_to_pixel(cell)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Navigating cells with the mouse.
+	# Handle mouse/touch positioning
 	if event is InputEventMouseMotion:
 		cell = grid.pixel_to_grid(event.position)
-	# Trying to select something in a cell.
+		
+	# Handle cell selection via click or ui_accept button
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
 		emit_signal("accept_pressed", cell)
 		get_viewport().set_input_as_handled()
 
+	# Handle keyboard/gamepad directional movement
+	_handle_directional_input(event)
+
+
+## Processes directional input for keyboard/gamepad cursor movement.
+## Includes handling for continuous movement when a direction is held down.
+func _handle_directional_input(event: InputEvent) -> void:
+	# Determine if we should move the cursor based on input state and cooldown
 	var should_move := event.is_pressed()
 	if event.is_echo():
-		should_move = should_move and _timer.is_stopped()
+		# For held keys, only move if the cooldown timer has expired
+		should_move = should_move and _movement_timer.is_stopped()
 
 	if not should_move:
 		return
 
-	# Moves the cursor by one grid cell.
+	# Move cursor by one cell in the appropriate direction
 	if event.is_action("ui_right"):
-		cell += Vector2i(1, 0) # RIGHT
+		cell += Vector2i(1, 0) # Move right
 	elif event.is_action("ui_up"):
-		cell += Vector2i(0, -1) # UP
+		cell += Vector2i(0, -1) # Move up
 	elif event.is_action("ui_left"):
-		cell += Vector2i(-1, 0) # LEFT
+		cell += Vector2i(-1, 0) # Move left
 	elif event.is_action("ui_down"):
-		cell += Vector2i(0, 1) # DOWN
+		cell += Vector2i(0, 1) # Move down
 
 
+## Draws the visual cursor as a rectangular outline around the current cell.
 func _draw() -> void:
+	# Draw a rectangular outline centered on the cursor position
 	draw_rect(Rect2(-grid.cell_size / 2, grid.cell_size), Color.ALICE_BLUE, false, 2.0)
