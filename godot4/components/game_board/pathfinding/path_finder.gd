@@ -24,7 +24,7 @@ func _init(grid: Grid, walkable_cells: Array[Vector2i]) -> void:
 	_grid = grid
 	
 	# Configure the A* grid
-	_astar.size = _grid.dimensions
+	_astar.region = Rect2i(0, 0, _grid.dimensions.x, _grid.dimensions.y)
 	_astar.cell_size = _grid.cell_size
 	_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER # Units can only move in 4 directions
 	_astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
