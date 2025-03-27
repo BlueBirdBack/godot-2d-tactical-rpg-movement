@@ -6,29 +6,29 @@ class_name Unit
 extends Path2D
 
 ## Emitted when the unit reached the end of a path along which it was walking.
-signal walk_finished
+signal movement_completed
 
 ## Shared resource of type Grid, used to calculate map coordinates.
-@export var grid: Resource
+@export var grid: Grid
 ## Distance to which the unit can walk in cells.
-@export var move_range := 6
+@export var movement_range := 6
 ## The unit's move speed when it's moving along a path.
-@export var move_speed := 600.0
+@export var movement_speed := 600.0
 ## Texture representing the unit.
-@export var skin: Texture:
+@export var character_texture: Texture:
 	set(value):
-		skin = value
-		if not _sprite:
+		character_texture = value
+		if not _character_sprite:
 			# This will resume execution after this node's _ready()
 			await ready
-		_sprite.texture = value
-## Offset to apply to the `skin` sprite in pixels.
-@export var skin_offset := Vector2.ZERO:
+		_character_sprite.texture = value
+## Offset to apply to the `character_texture` sprite in pixels.
+@export var texture_offset := Vector2.ZERO:
 	set(value):
-		skin_offset = value
-		if not _sprite:
+		texture_offset = value
+		if not _character_sprite:
 			await ready
-		_sprite.position = value
+		_character_sprite.position = value
 
 ## Coordinates of the current cell the cursor moved to.
 var cell := Vector2.ZERO:
@@ -41,23 +41,23 @@ var is_selected := false:
 	set(value):
 		is_selected = value
 		if is_selected:
-			_anim_player.play("selected")
+			_animation_player.play("selected")
 		else:
-			_anim_player.play("idle")
+			_animation_player.play("idle")
 
-var _is_walking := false:
+var _is_moving := false:
 	set(value):
-		_is_walking = value
-		set_process(_is_walking)
+		_is_moving = value
+		set_process(_is_moving)
 
-@onready var _sprite: Sprite2D = $PathFollow2D/Sprite
-@onready var _anim_player: AnimationPlayer = $AnimationPlayer
-@onready var _path_follow: PathFollow2D = $PathFollow2D
+@onready var _character_sprite: Sprite2D = $PathFollow2D/Sprite
+@onready var _animation_player: AnimationPlayer = $AnimationPlayer
+@onready var _path_follower: PathFollow2D = $PathFollow2D
 
 
 func _ready() -> void:
 	set_process(false)
-	_path_follow.rotates = false
+	_path_follower.rotates = false
 
 	cell = grid.pixel_to_grid(position)
 	position = grid.grid_to_pixel(cell)
@@ -69,26 +69,26 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	_path_follow.progress += move_speed * delta
+	_path_follower.progress += movement_speed * delta
 
-	if _path_follow.progress_ratio >= 1.0:
-		_is_walking = false
+	if _path_follower.progress_ratio >= 1.0:
+		_is_moving = false
 		# Setting this value to 0.0 causes a Zero Length Interval error
-		_path_follow.progress = 0.00001
+		_path_follower.progress = 0.00001
 		position = grid.grid_to_pixel(cell)
 		curve.clear_points()
-		emit_signal("walk_finished")
+		emit_signal("movement_completed")
 
 
 ## Starts walking along the `path`.
 ## `path` is an array of grid coordinates that the function converts to map coordinates.
-func walk_along(path: PackedVector2Array) -> void:
+func move_along_path(path: PackedVector2Array) -> void:
 	if path.size() < 2: # Need at least 2 points for a valid path
 		if path.size() == 1:
 			# Just teleport to the destination if only one point
 			cell = path[0]
 			position = grid.grid_to_pixel(cell)
-			emit_signal("walk_finished")
+			emit_signal("movement_completed")
 		return
 
 	curve.clear_points() # Always clear existing points first
@@ -106,8 +106,8 @@ func walk_along(path: PackedVector2Array) -> void:
 	# Final validation to ensure we have a valid path
 	if curve.get_point_count() < 2:
 		# Still not enough distinct points
-		emit_signal("walk_finished")
+		emit_signal("movement_completed")
 		return
 		
 	cell = path[-1]
-	_is_walking = true
+	_is_moving = true

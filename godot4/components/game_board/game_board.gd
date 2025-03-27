@@ -42,7 +42,7 @@ func is_occupied(cell: Vector2) -> bool:
 
 ## Returns an array of cells a given unit can walk using the flood fill algorithm.
 func get_walkable_cells(unit: Unit) -> Array:
-	return _flood_fill(unit.cell, unit.move_range)
+	return _flood_fill(unit.cell, unit.movement_range)
 
 
 ## Clears, and refills the `_units` dictionary with game objects that are on the board.
@@ -96,8 +96,8 @@ func _move_active_unit(new_cell: Vector2) -> void:
 	_units.erase(_active_unit.cell)
 	_units[new_cell] = _active_unit
 	_deselect_active_unit()
-	_active_unit.walk_along(_unit_path.current_path)
-	await _active_unit.walk_finished
+	_active_unit.move_along_path(_unit_path.current_path)
+	await _active_unit.movement_completed
 	_clear_active_unit()
 
 

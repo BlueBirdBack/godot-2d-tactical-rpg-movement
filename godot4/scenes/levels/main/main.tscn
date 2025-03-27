@@ -37,23 +37,26 @@ grid = ExtResource("3_jajxq")
 [node name="Bear" parent="GameBoard" instance=ExtResource("7_ounsu")]
 position = Vector2(600, 480)
 curve = SubResource("Curve2D_dwkvq")
-move_range = 3
-skin = ExtResource("8_gxq5w")
-skin_offset = Vector2(2, 9)
+movement_range = 3
+movement_speed = 600.0
+character_texture = ExtResource("8_gxq5w")
+texture_offset = Vector2(2, 9)
 
 [node name="Cat" parent="GameBoard" instance=ExtResource("7_ounsu")]
 position = Vector2(850.293, 412.465)
 curve = SubResource("Curve2D_0g67u")
-move_range = 8
-skin = ExtResource("9_a3wtt")
-skin_offset = Vector2(5, 12)
+movement_range = 8
+movement_speed = 600.0
+character_texture = ExtResource("9_a3wtt")
+texture_offset = Vector2(5, 12)
 
 [node name="Squirrel" parent="GameBoard" instance=ExtResource("7_ounsu")]
 position = Vector2(355.298, 298.556)
 curve = SubResource("Curve2D_jajxq")
-move_range = 5
-skin = ExtResource("10_5d2nx")
-skin_offset = Vector2(6, 17)
+movement_range = 5
+movement_speed = 600.0
+character_texture = ExtResource("10_5d2nx")
+texture_offset = Vector2(6, 17)
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]
