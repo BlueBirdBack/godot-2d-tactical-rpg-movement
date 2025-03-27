@@ -11,9 +11,9 @@ signal movement_completed
 ## Shared resource of type Grid, used to calculate map coordinates.
 @export var grid: Grid
 ## Distance to which the unit can walk in cells.
-@export var movement_range := 6
+@export var movement_range: int = 6
 ## The unit's move speed when it's moving along a path.
-@export var movement_speed := 600.0
+@export var movement_speed: float = 600.0
 ## Texture representing the unit.
 @export var character_texture: Texture:
 	set(value):
@@ -31,7 +31,7 @@ signal movement_completed
 		_character_sprite.position = value
 
 ## Coordinates of the current cell the cursor moved to.
-var cell := Vector2.ZERO:
+var cell: Vector2i = Vector2i.ZERO:
 	set(value):
 		# When changing the cell's value, we don't want to allow coordinates outside
 		#	the grid, so we clamp them
@@ -82,7 +82,7 @@ func _process(delta: float) -> void:
 
 ## Starts walking along the `path`.
 ## `path` is an array of grid coordinates that the function converts to map coordinates.
-func move_along_path(path: PackedVector2Array) -> void:
+func move_along_path(path: Array[Vector2i]) -> void:
 	if path.size() < 2: # Need at least 2 points for a valid path
 		if path.size() == 1:
 			# Just teleport to the destination if only one point

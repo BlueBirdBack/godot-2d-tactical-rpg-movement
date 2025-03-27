@@ -5,9 +5,9 @@ class_name Cursor
 extends Node2D
 
 ## Emitted when clicking on the currently hovered cell or when pressing "ui_accept".
-signal accept_pressed(cell)
+signal accept_pressed(cell: Vector2i)
 ## Emitted when the cursor moved to a new cell.
-signal moved(new_cell)
+signal moved(new_cell: Vector2i)
 
 ## Grid resource, giving the node access to the grid size, and more.
 @export var grid: Resource
@@ -15,12 +15,12 @@ signal moved(new_cell)
 @export var ui_cooldown := 0.1
 
 ## Coordinates of the current cell the cursor is hovering.
-var cell := Vector2.ZERO:
+var cell := Vector2i.ZERO:
 	set(value):
 		# We first clamp the cell coordinates and ensure that we aren't
 		#	trying to move outside the grid boundaries
-		var new_cell: Vector2 = grid.clamp_to_grid(value)
-		if new_cell.is_equal_approx(cell):
+		var new_cell: Vector2i = grid.clamp_to_grid(value)
+		if new_cell == cell:
 			return
 
 		cell = new_cell
@@ -49,7 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal("accept_pressed", cell)
 		get_viewport().set_input_as_handled()
 
-	var should_move := event.is_pressed() 
+	var should_move := event.is_pressed()
 	if event.is_echo():
 		should_move = should_move and _timer.is_stopped()
 
@@ -58,15 +58,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	# Moves the cursor by one grid cell.
 	if event.is_action("ui_right"):
-		cell += Vector2.RIGHT
+		cell += Vector2i(1, 0) # RIGHT
 	elif event.is_action("ui_up"):
-		cell += Vector2.UP
+		cell += Vector2i(0, -1) # UP
 	elif event.is_action("ui_left"):
-		cell += Vector2.LEFT
+		cell += Vector2i(-1, 0) # LEFT
 	elif event.is_action("ui_down"):
-		cell += Vector2.DOWN
+		cell += Vector2i(0, 1) # DOWN
 
 
 func _draw() -> void:
 	draw_rect(Rect2(-grid.cell_size / 2, grid.cell_size), Color.ALICE_BLUE, false, 2.0)
-

@@ -2,14 +2,15 @@
 class_name PathFinder
 extends Resource
 
-const DIRECTIONS = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+# Define Vector2i directions since Vector2i doesn't have these constants
+const DIRECTIONS = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)] # LEFT, RIGHT, UP, DOWN
 
 var _grid: Resource
 var _astar := AStarGrid2D.new()
 
 
 ## Initializes the AstarGrid2D object upon creation.
-func _init(grid: Grid, walkable_cells: Array) -> void:
+func _init(grid: Grid, walkable_cells: Array[Vector2i]) -> void:
 	_grid = grid
 	_astar.size = _grid.dimensions
 	_astar.cell_size = _grid.cell_size
@@ -21,11 +22,11 @@ func _init(grid: Grid, walkable_cells: Array) -> void:
 	#	not in the given array of walkable cells
 	for y in _grid.dimensions.y:
 		for x in _grid.dimensions.x:
-			if not walkable_cells.has(Vector2(x,y)):
-				_astar.set_point_solid(Vector2(x,y))
+			if not walkable_cells.has(Vector2i(x, y)):
+				_astar.set_point_solid(Vector2i(x, y))
 
-## Returns the path found between `start` and `end` as an array of Vector2 coordinates.
-func calculate_point_path(start: Vector2, end: Vector2) -> PackedVector2Array:
+## Returns the path found between `start` and `end` as an array of Vector2i coordinates.
+func calculate_point_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
 	# With an AStarGrid2D, we only need to call get_id_path to return
-	#	the expected array
+	#	the expected array - note it's returning Vector2 that we need to work with
 	return _astar.get_id_path(start, end)

@@ -4,7 +4,7 @@
 class_name GameBoard
 extends Node2D
 
-const DIRECTIONS = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+const DIRECTIONS = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)] # LEFT, RIGHT, UP, DOWN
 
 ## Resource of type Grid.
 @export var grid: Resource
@@ -36,12 +36,12 @@ func _get_configuration_warning() -> String:
 
 
 ## Returns `true` if the cell is occupied by a unit.
-func is_occupied(cell: Vector2) -> bool:
+func is_occupied(cell: Vector2i) -> bool:
 	return _units.has(cell)
 
 
 ## Returns an array of cells a given unit can walk using the flood fill algorithm.
-func get_walkable_cells(unit: Unit) -> Array:
+func get_walkable_cells(unit: Unit) -> Array[Vector2i]:
 	return _flood_fill(unit.cell, unit.movement_range)
 
 
@@ -57,9 +57,9 @@ func _reinitialize() -> void:
 
 
 ## Returns an array with all the coordinates of walkable cells based on the `max_distance`.
-func _flood_fill(cell: Vector2, max_distance: int) -> Array:
-	var array := []
-	var stack := [cell]
+func _flood_fill(cell: Vector2i, max_distance: int) -> Array[Vector2i]:
+	var array: Array[Vector2i] = []
+	var stack: Array[Vector2i] = [cell]
 	while not stack.size() == 0:
 		var current = stack.pop_back()
 		if not grid.is_within_grid(current):
@@ -67,20 +67,18 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 		if current in array:
 			continue
 
-		var difference: Vector2 = (current - cell).abs()
+		var difference: Vector2i = (current - cell).abs()
 		var distance := int(difference.x + difference.y)
 		if distance > max_distance:
 			continue
 
 		array.append(current)
 		for direction in DIRECTIONS:
-			var coordinates: Vector2 = current + direction
+			var coordinates: Vector2i = current + direction
 			if is_occupied(coordinates):
 				continue
 			if coordinates in array:
 				continue
-			# Minor optimization: If this neighbor is already queued
-			#	to be checked, we don't need to queue it again
 			if coordinates in stack:
 				continue
 
@@ -89,7 +87,7 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 
 
 ## Updates the _units dictionary with the target position for the unit and asks the _active_unit to walk to it.
-func _move_active_unit(new_cell: Vector2) -> void:
+func _move_active_unit(new_cell: Vector2i) -> void:
 	if is_occupied(new_cell) or not new_cell in _walkable_cells:
 		return
 	# warning-ignore:return_value_discarded
@@ -103,7 +101,7 @@ func _move_active_unit(new_cell: Vector2) -> void:
 
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
-func _select_unit(cell: Vector2) -> void:
+func _select_unit(cell: Vector2i) -> void:
 	if not _units.has(cell):
 		return
 
@@ -128,7 +126,7 @@ func _clear_active_unit() -> void:
 
 
 ## Selects or moves a unit based on where the cursor is.
-func _on_Cursor_accept_pressed(cell: Vector2) -> void:
+func _on_Cursor_accept_pressed(cell: Vector2i) -> void:
 	if not _active_unit:
 		_select_unit(cell)
 	elif _active_unit.is_selected:
@@ -136,6 +134,6 @@ func _on_Cursor_accept_pressed(cell: Vector2) -> void:
 
 
 ## Updates the interactive path's drawing if there's an active and selected unit.
-func _on_Cursor_moved(new_cell: Vector2) -> void:
+func _on_Cursor_moved(new_cell: Vector2i) -> void:
 	if _active_unit and _active_unit.is_selected:
 		_unit_path.draw(_active_unit.cell, new_cell)
