@@ -1,28 +1,28 @@
-## Represents a unit on the game board.
-## The board manages its position inside the game grid.
-## The unit itself holds stats and a visual representation that moves smoothly in the game world.
+## A game unit that can move on the grid-based game board.
+## This class handles both unit state (position, selection) and visual representation.
+## The GameBoard manages unit positioning while this class handles smooth movement animations.
 @tool
 class_name Unit
 extends Path2D
 
-## Emitted when the unit reached the end of a path along which it was walking.
+## Emitted when the unit completes its movement along a path.
 signal movement_completed
 
-## Shared resource of type Grid, used to calculate map coordinates.
+## Reference to the Grid resource for coordinate conversions between grid and pixel space.
 @export var grid: Grid
-## Distance to which the unit can walk in cells.
+## Maximum number of cells this unit can move in a single turn.
 @export var movement_range: int = 6
-## The unit's move speed when it's moving along a path.
+## Movement animation speed in pixels per second.
 @export var movement_speed: float = 600.0
-## Texture representing the unit.
+## Visual appearance of the unit.
 @export var character_texture: Texture:
 	set(value):
 		character_texture = value
 		if not _character_sprite:
-			# This will resume execution after this node's _ready()
+			# Wait until the node is fully initialized
 			await ready
 		_character_sprite.texture = value
-## Offset to apply to the `character_texture` sprite in pixels.
+## Fine-tuning of sprite position in pixels.
 @export var texture_offset := Vector2.ZERO:
 	set(value):
 		texture_offset = value
@@ -30,13 +30,12 @@ signal movement_completed
 			await ready
 		_character_sprite.position = value
 
-## Coordinates of the current cell the cursor moved to.
+## Current position on the game grid.
 var cell: Vector2i = Vector2i.ZERO:
 	set(value):
-		# When changing the cell's value, we don't want to allow coordinates outside
-		#	the grid, so we clamp them
+		# Ensure the unit stays within the valid grid boundaries
 		cell = grid.clamp_to_grid(value)
-## Toggles the "selected" animation on the unit.
+## Whether this unit is currently selected by the player.
 var is_selected := false:
 	set(value):
 		is_selected = value
@@ -45,6 +44,7 @@ var is_selected := false:
 		else:
 			_animation_player.play("idle")
 
+## Controls whether the unit is currently moving along a path.
 var _is_moving := false:
 	set(value):
 		_is_moving = value
@@ -62,8 +62,8 @@ func _ready() -> void:
 	cell = grid.pixel_to_grid(position)
 	position = grid.grid_to_pixel(cell)
 
-	# We create the curve resource here because creating it in the editor prevents us from
-	# moving the unit.
+	# Create Curve2D at runtime to avoid editor movement issues
+	# (Creating it in the editor would prevent repositioning the unit)
 	if not Engine.is_editor_hint():
 		curve = Curve2D.new()
 
@@ -73,39 +73,40 @@ func _process(delta: float) -> void:
 
 	if _path_follower.progress_ratio >= 1.0:
 		_is_moving = false
-		# Setting this value to 0.0 causes a Zero Length Interval error
+		# Use non-zero value to prevent "Zero Length Interval" error
 		_path_follower.progress = 0.00001
 		position = grid.grid_to_pixel(cell)
 		curve.clear_points()
 		emit_signal("movement_completed")
 
 
-## Starts walking along the `path`.
-## `path` is an array of grid coordinates that the function converts to map coordinates.
+## Moves the unit along a path of grid coordinates.
+## Automatically converts grid coordinates to pixel positions for smooth movement.
+## If path has only one point, teleports to that position instead of animating.
 func move_along_path(path: Array[Vector2i]) -> void:
-	if path.size() < 2: # Need at least 2 points for a valid path
+	if path.size() < 2: # Minimum of 2 points needed for a path
 		if path.size() == 1:
-			# Just teleport to the destination if only one point
+			# Single point - just teleport
 			cell = path[0]
 			position = grid.grid_to_pixel(cell)
 			emit_signal("movement_completed")
 		return
 
-	curve.clear_points() # Always clear existing points first
+	curve.clear_points() # Reset curve before creating new path
 	curve.add_point(Vector2.ZERO)
 	
-	# Track previous point to avoid duplicates
+	# Avoid adding duplicate points which can cause path issues
 	var previous_point: Vector2 = Vector2.ZERO
 	for point in path:
 		var new_point: Vector2 = grid.grid_to_pixel(point) - position
-		# Only add if point is sufficiently different from previous
+		# Only add points that differ enough from the previous one
 		if new_point.distance_squared_to(previous_point) > 0.01:
 			curve.add_point(new_point)
 			previous_point = new_point
 	
-	# Final validation to ensure we have a valid path
+	# Ensure we have a valid path with at least 2 distinct points
 	if curve.get_point_count() < 2:
-		# Still not enough distinct points
+		# Path is invalid - signal completion without moving
 		emit_signal("movement_completed")
 		return
 		
