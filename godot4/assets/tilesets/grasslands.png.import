@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bavjy1odiaew5"
-path="res://.godot/imported/tileset_unit_overlay.svg-524c409c4d0fca9fc3ea17d98511911d.ctex"
+uid="uid://cocms0prufyqi"
+path="res://.godot/imported/grasslands.png-3ee722642be35354c2bf69ae4c5a674e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/tilesets/tileset_unit_overlay.svg"
-dest_files=["res://.godot/imported/tileset_unit_overlay.svg-524c409c4d0fca9fc3ea17d98511911d.ctex"]
+source_file="res://assets/tilesets/grasslands.png"
+dest_files=["res://.godot/imported/grasslands.png-3ee722642be35354c2bf69ae4c5a674e.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

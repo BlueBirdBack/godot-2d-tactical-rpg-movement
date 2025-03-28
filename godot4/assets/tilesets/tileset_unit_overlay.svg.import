@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsmh2fn7kpkri"
-path="res://.godot/imported/menu_selection_arrow.png-997fb76f3e3ea94cd0b7fc26d393736d.ctex"
+uid="uid://bavjy1odiaew5"
+path="res://.godot/imported/tileset_unit_overlay.svg-e1b09dd00015a878ff33e43eddb9d41f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/ui/menu_selection_arrow.png"
-dest_files=["res://.godot/imported/menu_selection_arrow.png-997fb76f3e3ea94cd0b7fc26d393736d.ctex"]
+source_file="res://assets/tilesets/tileset_unit_overlay.svg"
+dest_files=["res://.godot/imported/tileset_unit_overlay.svg-e1b09dd00015a878ff33e43eddb9d41f.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

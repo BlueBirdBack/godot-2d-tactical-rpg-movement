@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dxyfefsgkgc4l" path="res://game/board/unit_path/unit_path.tscn" id="5_1sj66"]
 [ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://game/board/cursor/cursor.tscn" id="6_rcei1"]
 [ext_resource type="PackedScene" uid="uid://d4mhjq651egt" path="res://game/board/units/unit.tscn" id="7_ounsu"]
-[ext_resource type="Texture2D" uid="uid://don6rhlapjhye" path="res://assets/images/units/bear.png" id="8_gxq5w"]
-[ext_resource type="Texture2D" uid="uid://x4kxxdinjx3r" path="res://assets/images/units/bugcat.png" id="9_a3wtt"]
-[ext_resource type="Texture2D" uid="uid://ceanoo0yxcj8i" path="res://assets/images/units/squirrel.png" id="10_5d2nx"]
+[ext_resource type="Texture2D" uid="uid://don6rhlapjhye" path="res://assets/units/bear.png" id="8_gxq5w"]
+[ext_resource type="Texture2D" uid="uid://x4kxxdinjx3r" path="res://assets/units/bugcat.png" id="9_a3wtt"]
+[ext_resource type="Texture2D" uid="uid://ceanoo0yxcj8i" path="res://assets/units/squirrel.png" id="10_5d2nx"]
 
 [sub_resource type="Curve2D" id="Curve2D_dwkvq"]
 resource_local_to_scene = true
