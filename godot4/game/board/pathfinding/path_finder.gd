@@ -38,13 +38,13 @@ func _init(grid: Grid, walkable_cells: Array[Vector2i]) -> void:
 				_astar.set_point_solid(Vector2i(x, y))
 
 
-## Calculates the shortest path from start to end position.
+## Calculates the shortest path between two grid cells.
 ## 
 ## Parameters:
 ## - start: Starting grid cell coordinates
 ## - end: Target grid cell coordinates
 ## 
 ## Returns:
-## - A PackedVector2Array containing the sequence of grid coordinates forming the path
-func calculate_point_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
+## - A PackedVector2Array containing the sequence of grid cells forming the path
+func calculate_cell_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
 	return _astar.get_id_path(start, end)

@@ -35,7 +35,7 @@ func draw(cell_start: Vector2i, cell_end: Vector2i) -> void:
 	clear()
 	
 	# Calculate the optimal path
-	current_path = _pathfinder.calculate_point_path(cell_start, cell_end)
+	current_path = _pathfinder.calculate_cell_path(cell_start, cell_end)
 	
 	# Prepare cells for tilemap drawing
 	var cells_to_draw: Array[Vector2i] = []
