@@ -6,9 +6,6 @@
 class_name PathFinder
 extends Resource
 
-## Cardinal directions for grid movement (left, right, up, down)
-const DIRECTIONS = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
-
 ## Reference to the shared Grid resource for dimensions and coordinate conversion
 var _grid: Grid
 ## The A* pathfinding algorithm implementation
