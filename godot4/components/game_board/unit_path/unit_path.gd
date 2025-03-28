@@ -40,7 +40,8 @@ func draw(cell_start: Vector2i, cell_end: Vector2i) -> void:
 	# Prepare cells for tilemap drawing
 	var cells_to_draw: Array[Vector2i] = []
 	for cell in current_path:
-		cells_to_draw.append(Vector2i(cell.x, cell.y))
+		# Explicitly create Vector2i to avoid conversion warning
+		cells_to_draw.append(Vector2i(int(cell.x), int(cell.y)))
 	
 	# Draw the path using terrain autotiling for a smooth connected path
 	set_cells_terrain_connect(0, cells_to_draw, 0, 0)
