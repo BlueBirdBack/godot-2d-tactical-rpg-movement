@@ -68,6 +68,11 @@ func _ready() -> void:
 			_character_sprite.texture = character_texture
 		_character_sprite.position = texture_offset
 
+	# Skip grid operations in the editor to prevent errors with placeholder resources
+	if Engine.is_editor_hint() or not is_instance_valid(grid):
+		return
+		
+	# Only perform these operations at runtime when grid is properly initialized
 	cell = grid.pixel_to_grid(position)
 	position = grid.grid_to_pixel(cell)
 

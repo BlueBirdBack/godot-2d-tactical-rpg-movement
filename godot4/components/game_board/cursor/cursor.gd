@@ -18,6 +18,11 @@ signal moved(new_cell_coordinates: Vector2i)
 ## Current grid coordinates of the cell the cursor is hovering.
 var cell := Vector2i.ZERO:
 	set(value):
+		# Skip processing in the editor
+		if Engine.is_editor_hint() or not is_instance_valid(grid):
+			cell = value
+			return
+			
 		# Ensure cursor stays within grid boundaries
 		var new_cell: Vector2i = grid.clamp_to_grid(value)
 		if new_cell == cell:
@@ -34,10 +39,14 @@ var cell := Vector2i.ZERO:
 
 func _ready() -> void:
 	_movement_timer.wait_time = movement_cooldown
+	if Engine.is_editor_hint() or not is_instance_valid(grid):
+		return
 	position = grid.grid_to_pixel(cell)
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
 	# Handle mouse/touch positioning
 	if event is InputEventMouseMotion:
 		cell = grid.pixel_to_grid(event.position)
