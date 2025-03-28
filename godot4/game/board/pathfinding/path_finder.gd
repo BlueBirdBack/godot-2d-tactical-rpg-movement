@@ -45,6 +45,6 @@ func _init(grid: Grid, walkable_cells: Array[Vector2i]) -> void:
 ## - end: Target grid cell coordinates
 ## 
 ## Returns:
-## - A PackedVector2Array containing the sequence of grid cells forming the path
-func calculate_cell_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
+## - An Array[Vector2i] containing the sequence of grid cells forming the path
+func calculate_cell_path(start: Vector2i, end: Vector2i) -> Array[Vector2i]:
 	return _astar.get_id_path(start, end)

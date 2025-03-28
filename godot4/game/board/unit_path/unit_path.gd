@@ -14,7 +14,7 @@ var _pathfinder: PathFinder = null
 
 ## The current calculated path as a sequence of grid coordinates.
 ## This is used by the GameBoard to execute unit movement.
-var current_path: PackedVector2Array = PackedVector2Array()
+var current_path: Array[Vector2i] = []
 
 
 ## Initializes the pathfinding system with cells the unit can move to.
@@ -34,17 +34,11 @@ func draw(cell_start: Vector2i, cell_end: Vector2i) -> void:
 	# Clear any existing path visualization
 	clear()
 	
-	# Calculate the optimal path
+	# Calculate the optimal path (now directly gets Array[Vector2i])
 	current_path = _pathfinder.calculate_cell_path(cell_start, cell_end)
 	
-	# Prepare cells for tilemap drawing
-	var cells_to_draw: Array[Vector2i] = []
-	for cell in current_path:
-		# Explicitly create Vector2i to avoid conversion warning
-		cells_to_draw.append(Vector2i(int(cell.x), int(cell.y)))
-	
-	# Draw the path using terrain autotiling for a smooth connected path
-	set_cells_terrain_connect(0, cells_to_draw, 0, 0)
+	# Draw the path using terrain autotiling
+	set_cells_terrain_connect(0, current_path, 0, 0)
 
 
 ## Cleans up the path visualization and pathfinding resources.
