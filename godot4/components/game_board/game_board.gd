@@ -9,11 +9,9 @@
 class_name GameBoard
 extends Node2D
 
-## Cardinal movement directions (LEFT, RIGHT, UP, DOWN)
-const DIRECTIONS = [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]
 
 ## Resource of type Grid that defines the game grid properties.
-@export var grid: Resource
+@export var grid: Grid
 
 ## Dictionary mapping grid coordinates to unit references.
 ## Key: Vector2i grid cell, Value: Unit reference
@@ -115,7 +113,7 @@ func _flood_fill(cell: Vector2i, max_distance: int) -> Array[Vector2i]:
 		walkable_cells.append(current)
 		
 		# Explore neighbors
-		for direction in DIRECTIONS:
+		for direction in Constants.DIRECTIONS:
 			var next_cell: Vector2i = current + direction
 			if is_occupied(next_cell):
 				continue
