@@ -23,13 +23,13 @@ var _walkable_cells: Array[Vector2i] = []
 @onready var _movement_preview: UnitPath = $UnitPath
 
 
-## Called when the node enters the scene tree for the first time.
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Place all child units in their starting positions
 	_setup_units()
 
 
-## Initializes all unit positions by scanning child nodes
+# Initializes all unit positions by scanning child nodes
 func _setup_units() -> void:
 	_unit_by_cell.clear()
 	
@@ -38,14 +38,14 @@ func _setup_units() -> void:
 			_unit_by_cell[child.cell] = child
 
 
-## Handles global input events not captured by other nodes.
+# Handles global input events not captured by other nodes.
 func _unhandled_input(event: InputEvent) -> void:
 	if _selected_unit and event.is_action_pressed("ui_cancel"):
 		_deselect_selected_unit()
 		_clear_selected_unit()
 
 
-## Deselect unit and clear visuals
+# Deselect unit and clear visuals
 func _deselect_selected_unit() -> void:
 	if not _selected_unit:
 		return
@@ -55,7 +55,7 @@ func _deselect_selected_unit() -> void:
 	_movement_preview.stop() # Remove path preview
 
 
-## Clear selected unit reference
+# Clear selected unit reference
 func _clear_selected_unit() -> void:
 	_selected_unit = null
 	_walkable_cells.clear()
