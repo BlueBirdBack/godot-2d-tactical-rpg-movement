@@ -28,7 +28,7 @@ resource_local_to_scene = true
 script = ExtResource("2_0g67u")
 grid = ExtResource("3_jajxq")
 
-[node name="UnitOverlay" parent="GameBoard" instance=ExtResource("4_ubxw0")]
+[node name="MovementHighlighter" parent="GameBoard" instance=ExtResource("4_ubxw0")]
 
 [node name="UnitPath" parent="GameBoard" instance=ExtResource("5_1sj66")]
 

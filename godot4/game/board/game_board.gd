@@ -19,7 +19,7 @@ var _selected_unit: Unit
 var _walkable_cells: Array[Vector2i] = []
 
 # Visual elements that show movement options and paths
-@onready var _movement_highlights: UnitOverlay = $UnitOverlay
+@onready var _movement_highlights: MovementHighlighter = $MovementHighlighter
 @onready var _movement_preview: UnitPath = $UnitPath
 
 
