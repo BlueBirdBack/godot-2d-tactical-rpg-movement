@@ -25,7 +25,7 @@ var cell := Vector2i.ZERO:
 
 		cell = new_cell
 		position = grid.grid_to_pixel(cell)
-		EventBus.cursor_moved.emit(cell)
+		EventBus.grid_position_changed.emit(cell)
 		_movement_timer.start()
 
 ## Timer that controls the movement rate when holding direction keys.
@@ -48,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	# Handle cell selection via click or ui_accept button
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
-		EventBus.accept_pressed.emit(cell)
+		EventBus.cell_selected.emit(cell)
 		get_viewport().set_input_as_handled()
 
 	# Handle keyboard/gamepad directional movement

@@ -29,9 +29,9 @@ func _ready() -> void:
 	_setup_units()
 
 	# Replace direct connections with EventBus connections
-	EventBus.accept_pressed.connect(_on_Cursor_accept_pressed)
-	EventBus.cursor_moved.connect(_on_Cursor_moved)
-	EventBus.unit_movement_completed.connect(_on_Unit_movement_completed)
+	EventBus.cell_selected.connect(_on_cell_selected)
+	EventBus.grid_position_changed.connect(_on_grid_position_changed)
+	EventBus.unit_moved.connect(_on_unit_moved)
 
 
 # Initializes all unit positions by scanning child nodes
@@ -131,7 +131,7 @@ func _select_unit(cell: Vector2i) -> void:
 
 
 # Handle cursor clicks - select or move units
-func _on_Cursor_accept_pressed(cell: Vector2i) -> void:
+func _on_cell_selected(cell: Vector2i) -> void:
 	if not _selected_unit:
 		_select_unit(cell) # Select unit at this cell
 	elif _selected_unit.is_selected:
@@ -139,22 +139,22 @@ func _on_Cursor_accept_pressed(cell: Vector2i) -> void:
 
 
 # Update path preview when cursor moves
-func _on_Cursor_moved(new_cell: Vector2i) -> void:
+func _on_grid_position_changed(new_cell: Vector2i) -> void:
 	if _selected_unit and _selected_unit.is_selected:
 		_movement_preview.draw(_selected_unit.cell, new_cell) # Draw path line
 
 
 # Called when the node exits the scene tree.
 func _exit_tree() -> void:
-	if EventBus.accept_pressed.is_connected(_on_Cursor_accept_pressed):
-		EventBus.accept_pressed.disconnect(_on_Cursor_accept_pressed)
-	if EventBus.cursor_moved.is_connected(_on_Cursor_moved):
-		EventBus.cursor_moved.disconnect(_on_Cursor_moved)
-	if EventBus.unit_movement_completed.is_connected(_on_Unit_movement_completed):
-		EventBus.unit_movement_completed.disconnect(_on_Unit_movement_completed)
+	if EventBus.cell_selected.is_connected(_on_cell_selected):
+		EventBus.cell_selected.disconnect(_on_cell_selected)
+	if EventBus.grid_position_changed.is_connected(_on_grid_position_changed):
+		EventBus.grid_position_changed.disconnect(_on_grid_position_changed)
+	if EventBus.unit_moved.is_connected(_on_unit_moved):
+		EventBus.unit_moved.disconnect(_on_unit_moved)
 
 
-func _on_Unit_movement_completed(unit: Unit) -> void:
+func _on_unit_moved(unit: Unit) -> void:
 	# Only proceed if this was our selected unit completing movement
 	if unit == _selected_unit:
 		_clear_selected_unit()

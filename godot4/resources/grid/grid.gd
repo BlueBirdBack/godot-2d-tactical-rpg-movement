@@ -31,29 +31,29 @@ func set_cell_size(new_size: Vector2) -> void:
 func _update_half_cell_size() -> void:
 	_half_cell_size = cell_size / 2
 
-## Converts grid coordinates to pixel position (world space).
+## Converts grid position to pixel position (world space).
 ## Returns the center position of a cell in pixels.
-func grid_to_pixel(grid_coordinates: Vector2i) -> Vector2:
-	return Vector2(grid_coordinates) * cell_size + _half_cell_size
+func grid_to_pixel(grid_position: Vector2i) -> Vector2:
+	return Vector2(grid_position) * cell_size + _half_cell_size
 
 
-## Converts pixel position (world space) to grid coordinates.
+## Converts pixel position (world space) to grid position.
 ## Returns the grid cell that contains the given pixel position.
 func pixel_to_grid(pixel_position: Vector2) -> Vector2i:
 	return (pixel_position / cell_size).floor()
 
 
-## Checks if coordinates are within the grid boundaries.
-## Returns true if the coordinates are valid grid positions.
-func is_within_grid(grid_coordinates: Vector2i) -> bool:
-	var out := grid_coordinates.x >= 0 and grid_coordinates.x < dimensions.x
-	return out and grid_coordinates.y >= 0 and grid_coordinates.y < dimensions.y
+## Checks if position is within the grid boundaries.
+## Returns true if the position is valid on the grid.
+func is_within_grid(grid_position: Vector2i) -> bool:
+	var out := grid_position.x >= 0 and grid_position.x < dimensions.x
+	return out and grid_position.y >= 0 and grid_position.y < dimensions.y
 
 
-## Restricts coordinates to stay within grid boundaries.
-## Returns the closest valid grid position to the input coordinates.
-func clamp_to_grid(grid_coordinates: Vector2i) -> Vector2i:
-	var out := grid_coordinates
+## Restricts position to stay within grid boundaries.
+## Returns the closest valid grid position to the input position.
+func clamp_to_grid(grid_position: Vector2i) -> Vector2i:
+	var out := grid_position
 	out.x = clamp(out.x, 0, dimensions.x - 1)
 	out.y = clamp(out.y, 0, dimensions.y - 1)
 	return out

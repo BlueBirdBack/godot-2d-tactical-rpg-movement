@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 		_path_follower.progress = 0.00001
 		position = grid.grid_to_pixel(cell)
 		curve.clear_points()
-		EventBus.unit_movement_completed.emit(self)
+		EventBus.unit_moved.emit(self)
 
 
 ## Moves the unit along a path of grid coordinates.
@@ -103,7 +103,7 @@ func move_along_path(path: Array[Vector2i]) -> void:
 			# Single point - just teleport
 			cell = path[0]
 			position = grid.grid_to_pixel(cell)
-			EventBus.unit_movement_completed.emit(self)
+			EventBus.unit_moved.emit(self)
 		return
 
 	curve.clear_points() # Reset curve before creating new path
@@ -121,7 +121,7 @@ func move_along_path(path: Array[Vector2i]) -> void:
 	# Ensure we have a valid path with at least 2 distinct points
 	if curve.get_point_count() < 2:
 		# Path is invalid - signal completion without moving
-		EventBus.unit_movement_completed.emit(self)
+		EventBus.unit_moved.emit(self)
 		return
 		
 	cell = path[-1]
