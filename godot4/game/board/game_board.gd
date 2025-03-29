@@ -18,15 +18,19 @@ var _selected_unit: Unit
 # Cells the selected unit can move to (highlighted in blue)
 var _walkable_cells: Array[Vector2i] = []
 
-# Visual elements that show movement options and paths
+# Visual elements that handle movement interaction
 @onready var _movement_highlights: MovementHighlighter = $MovementHighlighter
 @onready var _movement_preview: MovementPreview = $MovementPreview
-
+@onready var _grid_selector: GridSelector = $GridSelector
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Place all child units in their starting positions
 	_setup_units()
+
+	# Connect signals from the grid selector
+	_grid_selector.accept_pressed.connect(_on_Cursor_accept_pressed)
+	_grid_selector.moved.connect(_on_Cursor_moved)
 
 
 # Initializes all unit positions by scanning child nodes
@@ -141,3 +145,11 @@ func _on_Cursor_accept_pressed(cell: Vector2i) -> void:
 func _on_Cursor_moved(new_cell: Vector2i) -> void:
 	if _selected_unit and _selected_unit.is_selected:
 		_movement_preview.draw(_selected_unit.cell, new_cell) # Draw path line
+
+
+# Called when the node exits the scene tree.
+func _exit_tree() -> void:
+	if _grid_selector.accept_pressed.is_connected(_on_Cursor_accept_pressed):
+		_grid_selector.accept_pressed.disconnect(_on_Cursor_accept_pressed)
+	if _grid_selector.moved.is_connected(_on_Cursor_moved):
+		_grid_selector.moved.disconnect(_on_Cursor_moved)
