@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://c8tcbxa147k28" path="res://resources/grid/grid.tres" id="3_jajxq"]
 [ext_resource type="PackedScene" uid="uid://n825j345khoi" path="res://game/board/movement/movement_highlighter.tscn" id="4_ubxw0"]
 [ext_resource type="PackedScene" uid="uid://dxyfefsgkgc4l" path="res://game/board/movement/movement_preview.tscn" id="5_1sj66"]
-[ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://game/board/cursor/cursor.tscn" id="6_rcei1"]
+[ext_resource type="PackedScene" uid="uid://bv1ul1qynrdwd" path="res://game/board/selection/grid_selector.tscn" id="6_rcei1"]
 [ext_resource type="PackedScene" uid="uid://d4mhjq651egt" path="res://game/board/units/unit.tscn" id="7_ounsu"]
 [ext_resource type="Texture2D" uid="uid://don6rhlapjhye" path="res://assets/units/bear.png" id="8_gxq5w"]
 [ext_resource type="Texture2D" uid="uid://x4kxxdinjx3r" path="res://assets/units/bugcat.png" id="9_a3wtt"]
@@ -32,7 +32,7 @@ grid = ExtResource("3_jajxq")
 
 [node name="MovementPreview" parent="GameBoard" instance=ExtResource("5_1sj66")]
 
-[node name="Cursor" parent="GameBoard" instance=ExtResource("6_rcei1")]
+[node name="GridSelector" parent="GameBoard" instance=ExtResource("6_rcei1")]
 
 [node name="Bear" parent="GameBoard" instance=ExtResource("7_ounsu")]
 y_sort_enabled = true
@@ -61,5 +61,5 @@ movement_speed = 300.0
 character_texture = ExtResource("10_5d2nx")
 texture_offset = Vector2(6, 17)
 
-[connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
-[connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]
+[connection signal="accept_pressed" from="GameBoard/GridSelector" to="GameBoard" method="_on_Cursor_accept_pressed"]
+[connection signal="moved" from="GameBoard/GridSelector" to="GameBoard" method="_on_Cursor_moved"]

@@ -1,7 +1,7 @@
 ## Player-controlled cursor for navigating and interacting with the game grid.
 ## Supports both keyboard/gamepad navigation and mouse/touch positioning.
 @tool
-class_name Cursor
+class_name GridSelector
 extends Node2D
 
 ## Emitted when the player confirms selection of the current cell (via click or ui_accept).
