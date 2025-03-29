@@ -28,9 +28,10 @@ func _ready() -> void:
 	# Place all child units in their starting positions
 	_setup_units()
 
-	# Connect signals from the grid selector
-	_grid_selector.accept_pressed.connect(_on_Cursor_accept_pressed)
-	_grid_selector.moved.connect(_on_Cursor_moved)
+	# Replace direct connections with EventBus connections
+	EventBus.accept_pressed.connect(_on_Cursor_accept_pressed)
+	EventBus.cursor_moved.connect(_on_Cursor_moved)
+	EventBus.unit_movement_completed.connect(_on_Unit_movement_completed)
 
 
 # Initializes all unit positions by scanning child nodes
@@ -111,12 +112,8 @@ func _move_selected_unit(target_cell: Vector2i) -> void:
 	# Clear selection visuals
 	_deselect_selected_unit()
 	
-	# Animate movement along path
+	# Start movement - the handler will clear selection when done
 	_selected_unit.move_along_path(_movement_preview.current_path)
-	await _selected_unit.movement_completed
-	
-	# Clear selection
-	_clear_selected_unit()
 
 
 # Select a unit and show its movement options
@@ -149,7 +146,15 @@ func _on_Cursor_moved(new_cell: Vector2i) -> void:
 
 # Called when the node exits the scene tree.
 func _exit_tree() -> void:
-	if _grid_selector.accept_pressed.is_connected(_on_Cursor_accept_pressed):
-		_grid_selector.accept_pressed.disconnect(_on_Cursor_accept_pressed)
-	if _grid_selector.moved.is_connected(_on_Cursor_moved):
-		_grid_selector.moved.disconnect(_on_Cursor_moved)
+	if EventBus.accept_pressed.is_connected(_on_Cursor_accept_pressed):
+		EventBus.accept_pressed.disconnect(_on_Cursor_accept_pressed)
+	if EventBus.cursor_moved.is_connected(_on_Cursor_moved):
+		EventBus.cursor_moved.disconnect(_on_Cursor_moved)
+	if EventBus.unit_movement_completed.is_connected(_on_Unit_movement_completed):
+		EventBus.unit_movement_completed.disconnect(_on_Unit_movement_completed)
+
+
+func _on_Unit_movement_completed(unit: Unit) -> void:
+	# Only proceed if this was our selected unit completing movement
+	if unit == _selected_unit:
+		_clear_selected_unit()

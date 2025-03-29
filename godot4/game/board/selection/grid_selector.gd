@@ -4,11 +4,6 @@
 class_name GridSelector
 extends Node2D
 
-## Emitted when the player confirms selection of the current cell (via click or ui_accept).
-signal accept_pressed(cell_coordinates: Vector2i)
-## Emitted when the cursor moves to a different cell.
-signal moved(new_cell_coordinates: Vector2i)
-
 ## Grid resource providing conversion methods between grid and pixel coordinates.
 @export var grid: Grid
 ## Cooldown time in seconds between consecutive cursor movements when a direction key is held.
@@ -30,7 +25,7 @@ var cell := Vector2i.ZERO:
 
 		cell = new_cell
 		position = grid.grid_to_pixel(cell)
-		emit_signal("moved", cell)
+		EventBus.cursor_moved.emit(cell)
 		_movement_timer.start()
 
 ## Timer that controls the movement rate when holding direction keys.
@@ -53,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	# Handle cell selection via click or ui_accept button
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
-		emit_signal("accept_pressed", cell)
+		EventBus.accept_pressed.emit(cell)
 		get_viewport().set_input_as_handled()
 
 	# Handle keyboard/gamepad directional movement

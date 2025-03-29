@@ -18,6 +18,7 @@ config/icon="res://assets/icons/icon.png"
 [autoload]
 
 Constants="*res://game/globals/constants.gd"
+EventBus="*res://game/globals/event_bus.gd"
 
 [display]
 
