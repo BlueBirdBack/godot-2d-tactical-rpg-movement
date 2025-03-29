@@ -67,15 +67,15 @@ func _handle_directional_input(event: InputEvent) -> void:
 	if not should_move:
 		return
 
-	# Move cursor by one cell in the appropriate direction
+	# Move cursor by one cell
 	if event.is_action("ui_right"):
-		cell += Vector2i(1, 0) # Move right
+		cell += Constants.d(Constants.D.RIGHT)
 	elif event.is_action("ui_up"):
-		cell += Vector2i(0, -1) # Move up
+		cell += Constants.d(Constants.D.UP)
 	elif event.is_action("ui_left"):
-		cell += Vector2i(-1, 0) # Move left
+		cell += Constants.d(Constants.D.LEFT)
 	elif event.is_action("ui_down"):
-		cell += Vector2i(0, 1) # Move down
+		cell += Constants.d(Constants.D.DOWN)
 
 
 ## Draws the visual cursor as a rectangular outline around the current cell.

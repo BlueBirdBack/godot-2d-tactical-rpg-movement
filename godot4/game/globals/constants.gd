@@ -8,3 +8,10 @@ const DIRECTIONS = [
 	Vector2i(0, -1), # Up
 	Vector2i(0, 1) # Down
 ]
+
+## Shortened direction enum
+enum D {LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3}
+
+## Shortened direction getter
+static func d(dir: D) -> Vector2i:
+	return DIRECTIONS[dir]
