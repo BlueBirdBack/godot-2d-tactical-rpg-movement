@@ -20,7 +20,7 @@ var _walkable_cells: Array[Vector2i] = []
 
 # Visual elements that show movement options and paths
 @onready var _movement_highlights: MovementHighlighter = $MovementHighlighter
-@onready var _movement_preview: UnitPath = $UnitPath
+@onready var _movement_preview: MovementPreview = $MovementPreview
 
 
 # Called when the node enters the scene tree for the first time.

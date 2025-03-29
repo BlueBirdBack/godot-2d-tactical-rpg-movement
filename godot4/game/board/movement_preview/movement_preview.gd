@@ -3,7 +3,7 @@
 ## This class handles calculating and displaying the path a unit will take when moving
 ## from one cell to another. It uses AStarGrid2D for pathfinding and renders paths
 ## using TileMap's terrain system.
-class_name UnitPath
+class_name MovementPreview
 extends TileMapLayer
 
 ## Reference to the shared Grid resource for coordinate conversion and grid parameters.
