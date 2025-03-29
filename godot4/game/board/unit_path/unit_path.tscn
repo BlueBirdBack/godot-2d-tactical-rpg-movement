@@ -4,8 +4,8 @@
 [ext_resource type="TileSet" uid="uid://dqg14aj86so4a" path="res://game/board/unit_path/unit_path_tileset.tres" id="2"]
 [ext_resource type="Resource" uid="uid://c8tcbxa147k28" path="res://resources/grid/grid.tres" id="3"]
 
-[node name="UnitPath" type="TileMap"]
+[node name="UnitPath" type="TileMapLayer"]
+use_parent_material = true
 tile_set = ExtResource("2")
-format = 2
 script = ExtResource("1")
 grid = ExtResource("3")

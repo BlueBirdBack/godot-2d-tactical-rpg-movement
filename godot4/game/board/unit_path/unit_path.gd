@@ -4,7 +4,7 @@
 ## from one cell to another. It uses AStarGrid2D for pathfinding and renders paths
 ## using TileMap's terrain system.
 class_name UnitPath
-extends TileMap
+extends TileMapLayer
 
 ## Reference to the shared Grid resource for coordinate conversion and grid parameters.
 @export var grid: Grid
@@ -51,7 +51,7 @@ func draw(cell_start: Vector2i, cell_end: Vector2i) -> void:
 	current_path = _astar.get_id_path(cell_start, cell_end)
 	
 	# Draw the path using terrain autotiling
-	set_cells_terrain_connect(0, current_path, 0, 0)
+	set_cells_terrain_connect(current_path, 0, 0)
 
 
 ## Cleans up the path visualization and pathfinding resources.
