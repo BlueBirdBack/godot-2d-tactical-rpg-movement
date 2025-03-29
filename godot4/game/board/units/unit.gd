@@ -5,9 +5,6 @@
 class_name Unit
 extends Path2D
 
-## Emitted when the unit completes its movement along a path.
-signal movement_completed
-
 ## Reference to the Grid resource for coordinate conversions between grid and pixel space.
 @export var grid: Grid
 ## Maximum number of cells this unit can move in a single turn.
